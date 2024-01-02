@@ -15,7 +15,7 @@
       margin: 0;
       overflow: hidden;
       position: relative;
-      background-color: #f5f5f5;
+      background-color: #3498db;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
@@ -32,7 +32,7 @@
     #header {
       width: 100%;
       padding: 15px;
-      background-color: #4CAF50;
+      background-color: #2980b9;
       color: #fff;
       text-align: center;
       font-size: 20px;
@@ -50,7 +50,7 @@
     #remoteVideo {
       width: 100%;
       height: auto;
-      border-bottom: 2px solid #4CAF50;
+      border-bottom: 2px solid #2980b9;
     }
 
     #localVideo {
@@ -86,16 +86,18 @@
 
     button {
       padding: 10px;
-      background-color: #4CAF50;
+      background-color: #3498db;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       outline: none;
+      display: flex;
+      align-items: center;
     }
 
     button:hover {
-      background-color: #45a049;
+      background-color: #2980b9;
     }
 
     .icon {
@@ -145,14 +147,17 @@
       <div id="waitingMessage">Waiting for Connection...</div>
     </div>
     <div id="controls">
-      <button id="shareLinkButton" onclick="shareLink()"><span class="icon">📤</span>Share Link</button>
-      <button id="muteButton" onclick="toggleMute()"><span class="icon">🔇</span>Mute</button>
-      <button id="videoOffButton" onclick="toggleVideo()"><span class="icon">📹</span>Video Off</button>
-      <button id="endCallButton" onclick="endCall()"><span class="icon">📞</span>End Call</button>
+      <button id="shareLinkButton" onclick="copyLink()"><span class="icon">📤</span></button>
+      <button id="muteButton" onclick="toggleMute()"><span class="icon" id="muteIcon">🔊</span></button>
+      <button id="videoOffButton" onclick="toggleVideo()"><span class="icon" id="videoIcon">📹</span></button>
+      <button id="endCallButton" onclick="endCall()"><span class="icon">📞</span></button>
     </div>
   </div>
   <script src="script.js"></script>
   <script>
+    var localVideo = document.getElementById("localVideo");
+    var muteIcon = document.getElementById("muteIcon");
+    var videoIcon = document.getElementById("videoIcon");
     var remoteVideo = document.getElementById("remoteVideo");
     var waitingMessage = document.getElementById("waitingMessage");
 
@@ -166,25 +171,29 @@
       waitingMessage.style.display = "block";
     };
 
-    function shareLink() {
+    function copyLink() {
       var link = window.location.href;
-      alert("Share this link: " + link);
+      navigator.clipboard.writeText(link).then(function() {
+        alert("Link copied to clipboard!");
+      });
     }
 
     function toggleMute() {
-      var localVideo = document.getElementById("localVideo");
       localVideo.muted = !localVideo.muted;
+      muteIcon.innerHTML = localVideo.muted ? '🔇' : '🔊';
     }
 
     function toggleVideo() {
-      var localVideo = document.getElementById("localVideo");
-      localVideo.srcObject.getVideoTracks().forEach(track => (track.enabled = !track.enabled));
+      localVideo.srcObject.getVideoTracks().forEach(track => {
+        track.enabled = !track.enabled;
+        videoIcon.innerHTML = track.enabled ? '📹' : '🚫';
+      });
     }
 
     function endCall() {
       // Implement call termination logic
       alert("Call Ended");
-      window.location.href = "http://imakshay.in/chatme";
+      location.reload(); // Refresh the page to generate a new link
     }
   </script>
 </body>
