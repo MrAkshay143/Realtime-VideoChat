@@ -63,11 +63,13 @@
       border: 2px solid #3498db; /* Blue border for local video */
       border-radius: 50%;
       cursor: pointer;
+      transform: rotateY(180deg); /* Mirror effect for local video */
     }
 
     #remoteVideo {
       max-width: 100%;
       z-index: 1;
+      border-radius: 15px; /* Round corners for remote video */
     }
 
     #waitingMessage {
@@ -100,7 +102,8 @@
       flex-grow: 1;
     }
 
-    #copyRoomCodeButton {
+    #copyRoomCodeButton,
+    #connectButton {
       background-color: transparent;
       border: none;
       cursor: pointer;
@@ -110,13 +113,15 @@
       padding: 10px;
     }
 
-    #copyRoomCodeIcon {
+    #copyRoomCodeIcon,
+    #connectIcon {
       font-size: 16px;
       color: #3498db;
       margin-right: 5px;
     }
 
-    #copyRoomCodeButton:hover {
+    #copyRoomCodeButton:hover,
+    #connectButton:hover {
       background-color: #f0f0f0;
     }
 
@@ -142,7 +147,7 @@
     }
 
     button:hover {
-      background-color: #2980b9;
+      background-color: #219952;
     }
 
     .icon {
@@ -171,7 +176,7 @@
   <div id="container">
     <div id="header">Video Call Room</div>
     <div id="video-container">
-      <video id="localVideo" autoplay onclick="switchView()"></video>
+      <video id="localVideo" autoplay onclick="switchView()" muted></video>
       <video id="remoteVideo" autoplay onclick="switchView()"></video>
       <div id="waitingMessage">Waiting for Connection...</div>
     </div>
@@ -197,7 +202,6 @@
     var roomCodeSpan = document.getElementById("roomCode");
     var roomCodeInput = document.getElementById("roomCodeInput");
 
-    localVideo.muted = false; // Default: Mic is on
     localVideo.srcObject = null; // Default: Camera is on
 
     // Extract room code from the URL
@@ -228,7 +232,7 @@
 
     function toggleVideo() {
       if (!localVideo.srcObject) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        navigator.mediaDevices.getUserMedia({ video: true, audio: { echoCancellation: false } })
           .then(function (stream) {
             localVideo.srcObject = stream;
             videoIcon.innerHTML = '📹';
@@ -237,6 +241,7 @@
             console.error('Error accessing media devices.', error);
           });
       } else {
+        localVideo.srcObject.getTracks().forEach(track => track.stop()); // Stop tracks
         localVideo.srcObject = null;
         videoIcon.innerHTML = '🚫';
       }
@@ -254,7 +259,7 @@
         window.location.hash = newRoomCode;
         location.reload(); // Redirect to the new room code
       } else {
-        alert("Please insert your friend's Room Code.");
+        alert("Enter your friend's Room Code.");
       }
     }
 
