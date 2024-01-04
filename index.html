@@ -263,12 +263,16 @@
       }
     }
 
-    function switchView() {
-      // Switch positions of local and remote videos
-      var tempSrcObject = localVideo.srcObject;
-      localVideo.srcObject = remoteVideo.srcObject;
-      remoteVideo.srcObject = tempSrcObject;
+     function switchView() {
+    const tempSrcObject = localVideo.srcObject;
+    localVideo.srcObject = remoteVideo.srcObject;
+    remoteVideo.srcObject = tempSrcObject;
+
+    // Toggle mute status
+    localVideo.muted = !localVideo.muted;
+    remoteVideo.muted = !remoteVideo.muted;
     }
+
   </script>
 </body>
 </html>
