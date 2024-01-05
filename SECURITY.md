@@ -35,4 +35,3 @@ We encourage the security community and all users to participate in making Realt
 
 Thank you for helping us improve the security of Realtime Video Chat.
 
-**Note:** This security policy is adapted from the [Open Source Security Foundation's template](https://github.com/ossf/security/blob/main/SECURITY.md).
