@@ -5,7 +5,7 @@
 If you discover a security vulnerability in the Realtime Video Chat project, please follow these steps to responsibly disclose it:
 
 1. **Email:**
-   Send an email to [security@yourcart.in](mailto:security@yourcart.in) with a detailed description of the vulnerability.
+   Send an email to [security@imakshay.in](mailto:security@imakshay.in) with a detailed description of the vulnerability.
 
 2. **Subject:**
    Use a clear and concise subject line, such as "Security Vulnerability in Realtime Video Chat."
